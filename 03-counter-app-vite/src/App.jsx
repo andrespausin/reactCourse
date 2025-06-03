@@ -7,7 +7,7 @@ export const App = () => {
     
     return (
         <>
-            <FirstApp title={firstTitle} />
+            <FirstApp />
         </>
     )
 }
