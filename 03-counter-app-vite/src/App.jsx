@@ -1,4 +1,4 @@
-import { FirstApp } from "./FirstApp"
+// import { FirstApp } from "./FirstApp"
 import { CounterApp } from "./CounterApp"
 
 const firstTitle = 'Soy una propiedad que viene desde el componente padre'
@@ -8,7 +8,7 @@ export const App = () => {
     
     return (
         <>
-            <CounterApp value={'Este es un valor como prop'} />
+            <CounterApp value={10} />
         </>
     )
 }
