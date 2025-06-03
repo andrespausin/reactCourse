@@ -8,10 +8,16 @@ import { useState } from "react";
 export const CounterApp = ({ value }) => {
     const [counter, setCount] = useState(value);
 
-    // Funcion que se ejecuta al hacer click en el botón
-    // Modifica el estado del componente, el cual se declaro arriba con el valor inicial de value
-    const handleClick = () => {
+    const handleAdd = () => {
         setCount(counter+1)
+    }
+
+    const handleSubstract = () => {
+        setCount(counter-1)
+    }
+
+    const handleReset = () => {
+        setCount(value);
     }
 
     return (
@@ -19,9 +25,12 @@ export const CounterApp = ({ value }) => {
             <h1>CounterApp</h1>
             <h2>{ `Contador: ${counter}` }</h2>
 
-            <button onClick={handleClick}>
-                +1
-            </button>
+            <div className="btn-container">
+                <button onClick={handleAdd}>+1</button>
+                <button onClick={handleSubstract}>-1</button>
+                <button onClick={handleReset}>Reset</button>
+            </div>
+            
         </>
     )
 }
