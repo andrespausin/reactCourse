@@ -8,6 +8,8 @@ import { useState } from "react";
 export const CounterApp = ({ value }) => {
     const [counter, setCount] = useState(value);
 
+    console.log('CounterApp rendered');
+
     const handleAdd = () => {
         setCount(counter+1)
     }
