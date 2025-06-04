@@ -13,4 +13,9 @@ describe("Pruebas en el archivo 07-deses-arr.test.js", () => {
     expect(numbers).toBe(123)
     expect(typeof numbers).toBe("number");
   })
+
+  test("Letters debe ser igual a un string",  () => {
+    console.log(expect.any(String));
+    expect(letters).toEqual(expect.any(String));
+  })
 })
