@@ -14,7 +14,7 @@ describe("Pruebas en el archivo 09-promesa.js", () => {
       })
   })
   test('getHeroesByIdAsync debe obtener un error', (done) => { 
-    const id = 1;
+    const id = 100;
     getHeroeByIdAsync(id)
       .then(hero => {
         expect(hero).toBeFalsy();
