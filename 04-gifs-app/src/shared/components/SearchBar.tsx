@@ -1,19 +1,51 @@
-export const SearchBar = () => {
+import { useState, useEffect } from "react";
+
+interface SearchBarProps {
+    placeholder?: string;
+    onQuery: (query: string) => void;
+}
+
+export const SearchBar = ({ placeholder = "Buscar Gif", onQuery }: SearchBarProps) => {
+    const [searchTerm, setSearchTerm] = useState("");
+
+    // Debounce implementation
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            onQuery(searchTerm);
+        }, 2000);
+
+        return () => {
+            clearTimeout(timeoutId);
+        }
+
+    }, [searchTerm, onQuery]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    }
+
+    const handleSearch = () => {
+        onQuery(searchTerm);
+        setSearchTerm("");
+    }
+
+    const handleSearchKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
+    }
+
     return (
         <>
             <div className="search-container">
-                <input type="text" placeholder="Buscar gifs" />
-                <button>Buscar</button>
-            </div>
-
-            {/* Busquedas previas */}
-            <div className="previous-searches">
-                <h2>Busquedas anteriores</h2>
-                <ul className="previous-searches-list">
-                    <li>Gatos</li>
-                    <li>Perros</li>
-                    <li>Memes</li>
-                </ul>
+                <input
+                    type="text"
+                    placeholder={placeholder}
+                    value={searchTerm}
+                    onChange={handleChange}
+                    onKeyDown={handleSearchKeyDown}
+                />
+                <button onClick={handleSearch}>Buscar</button>
             </div>
         </>
     )
