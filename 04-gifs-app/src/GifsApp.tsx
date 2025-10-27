@@ -1,44 +1,19 @@
+import { GifContainer } from "./gifs/GifContainer"
 import { mockGifs } from "./mock-data/data"
+import { CustomHeader } from "./shared/components/CustomHeader"
+import { SearchBar } from "./shared/components/SearchBar"
 
 export const GifsApp = () => {
     return (
         <>
-            {/* Header */}
-            <div className="content-center">
-                <h1>Buscador de Gifs</h1>
-                <p>Descubre y comparte el gif perfecto</p>
-            </div>
+            {/* Custom Header */}
+            <CustomHeader title="Gifs App" description="Descubre y comparte el gif perfecto" />
 
-            {/* Search Bar */}
-            <div className="search-container">
-                <input type="text" placeholder="Buscar gifs" />
-                <button>Buscar</button>
-            </div>
-
-            {/* Busquedas previas */}
-            <div className="previous-searches">
-                <h2>Busquedas anteriores</h2>
-                <ul className="previous-searches-list">
-                    <li>Gatos</li>
-                    <li>Perros</li>
-                    <li>Memes</li>
-                </ul>
-            </div>
+            {/* Search Bar y busquedas previas */}
+            <SearchBar />
 
             {/* Gifs */}
-            <div className="gifs-container">
-                {
-                    mockGifs.map(gif => (
-                        <div key={gif.id} className="gif-card">
-                            <img src={gif.url} alt={gif.title} />
-                            <h3>{gif.title}</h3>
-                            <p>
-                                {gif.width} x {gif.height} (1.5Mb)
-                            </p>
-                        </div>
-                    ))
-                }
-            </div>
+            <GifContainer gifs={mockGifs} />
         </>
     )
 }
