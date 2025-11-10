@@ -1,49 +1,54 @@
-import { useState } from "react"
-import { GifContainer } from "./gifs/components/GifContainer"
-import { mockGifs } from "./mock-data/data"
-import { CustomHeader } from "./shared/components/CustomHeader"
-import { PreviousSearches } from "./shared/components/PreviousSearches"
-import { SearchBar } from "./shared/components/SearchBar"
+import { useState } from 'react';
+
+import { GifList } from './gifs/components/GifContainer';
+import { PreviousSearches } from './shared/components/PreviousSearches';
+
+import { CustomHeader } from './shared/components/CustomHeader';
+import { SearchBar } from './shared/components/SearchBar';
+
+import { getGifsByQuery } from './gifs/actions/get-gifs-by-query.action';
+import type { Gif } from './gifs/interfaces/gif.interface';
 
 export const GifsApp = () => {
-    const [previousSearches, setPreviousSearches] = useState<string[]>(["dragon ball"])
+    const [gifs, setGifs] = useState<Gif[]>([]);
+    const [previousTerms, setPreviousTerms] = useState<string[]>([]);
 
     const handleTermClicked = (term: string) => {
-        console.log("Term clicked:", term)
-    }
+        console.log({ term });
+    };
 
-    const handleSearch = (searchTerm: string) => {
-        // 2. El string ni empieza ni termina con espacios
-        const search = searchTerm.trim().toLowerCase();
+    const handleSearch = async (query: string = '') => {
+        query = query.trim().toLowerCase();
 
-        // 1. El string no puede estar vacio
-        if (search.trim() === "") return;
+        if (query.length === 0) return;
 
+        if (previousTerms.includes(query)) return;
 
-        // 3. No hay búsquedas repetidas y solo se guardan las últimas 8 búsquedas
-        setPreviousSearches((prevSearches) => {
-            if (prevSearches.includes(search)) {
-                return prevSearches;
-            }
-            if (prevSearches.length >= 8) {
-                return [search, ...prevSearches.slice(0, 7)];
-            }
-            return [search, ...prevSearches];
-        });
-    }
+        setPreviousTerms([query, ...previousTerms].splice(0, 8));
+
+        const gifs = await getGifsByQuery(query);
+        setGifs(gifs);
+    };
 
     return (
         <>
-            {/* Custom Header */}
-            <CustomHeader title="Gifs App" description="Descubre y comparte el gif perfecto" />
+            {/* Header */}
+            <CustomHeader
+                title="Buscador de Gifs"
+                description="Descubre y comparte el Gif perfecto"
+            />
 
-            {/* Search Bar y busquedas previas */}
-            <SearchBar placeholder="Busca lo que + desees" onQuery={handleSearch} />
+            {/* Search */}
+            <SearchBar placeholder="Busca lo que quieras" onQuery={handleSearch} />
 
-            <PreviousSearches previousSearches={previousSearches} onSearchClicked={handleTermClicked} />
+            {/* Búsquedas previas */}
+            <PreviousSearches
+                searches={previousTerms}
+                onLabelClicked={handleTermClicked}
+            />
 
             {/* Gifs */}
-            <GifContainer gifs={mockGifs} />
+            <GifList gifs={gifs} />
         </>
-    )
-}
+    );
+};
