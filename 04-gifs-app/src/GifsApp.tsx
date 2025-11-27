@@ -44,7 +44,7 @@ export const GifsApp = () => {
             {/* Búsquedas previas */}
             <PreviousSearches
                 searches={previousTerms}
-                onLabelClicked={handleTermClicked}
+                onSearchClicked={handleTermClicked}
             />
 
             {/* Gifs */}
