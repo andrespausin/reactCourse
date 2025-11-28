@@ -12,15 +12,14 @@ export const getGifsByQuery = async (query: string): Promise<Gif[]> => {
     }
     )
 
-    response.data.data.forEach((gif) => {
-        console.log(`Response: ${JSON.stringify(gif)}`)
-
+    response.data.data.forEach((item) => {
+        console.log(item.images.original.url)
     })
 
     return response.data.data.map((gif) => ({
         id: gif.id,
         title: gif.title,
-        url: gif.url,
+        url: gif.images.original.url,
         width: Number(gif.images.original.width),
         height: Number(gif.images.original.height)
     }))

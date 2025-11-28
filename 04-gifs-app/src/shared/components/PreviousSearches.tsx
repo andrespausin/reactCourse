@@ -1,16 +1,9 @@
-import { useState } from "react";
-
 interface PreviousSearchesProps {
     searches?: string[];
     onSearchClicked?: (search: string) => void;
 }
 
 export const PreviousSearches = ({ searches = ["Cesar", "Pausin"], onSearchClicked }: PreviousSearchesProps) => {
-    const [count, setCount] = useState(0);
-
-    const handleClick = () => {
-        return setCount(count + 1)
-    }
 
     return (
         <>
@@ -27,9 +20,6 @@ export const PreviousSearches = ({ searches = ["Cesar", "Pausin"], onSearchClick
                     })}
                 </ul>
             </div>
-            {/* Solo para la parte practica del curso */}
-            <button onClick={handleClick}>+ 1</button>
-            <span data-testid='contador'>Contador: {count}</span>
         </>
     )
 }
