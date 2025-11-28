@@ -1,9 +1,6 @@
 import { useRef, useState } from "react";
-import { type Gif } from "../interfaces/gif.interface";
+import type { Gif } from "../interfaces/gif.interface";
 import { getGifsByQuery } from "../actions/get-gifs-by-query.action";
-
-// const gifsCache: Record<string, Gif[]> = {}
-
 
 export const useGifs = () => {
     const [gifs, setGifs] = useState<Gif[]>([]);

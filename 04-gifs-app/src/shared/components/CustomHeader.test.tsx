@@ -1,14 +1,34 @@
+import { describe, test, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
 import { CustomHeader } from './CustomHeader';
 
 describe('CustomHeader', () => {
-    test('Should render with default values', () => {
-        const title = 'Test item'
-        render(<CustomHeader title={title} description={title} />)
+    const title = 'Test title'
 
-        screen.debug()
+    test('should render the title correctly', () => {
+        render(<CustomHeader title={title} />)
 
-        expect(screen.findByTestId(title))
+        expect(screen.getByText(title)).toBeDefined()
+    })
+
+    test('should render the description when provided', () => {
+        const description = 'This is a description'
+
+        render(<CustomHeader title={title} description={description} />)
+
+
+        expect(screen.findAllByText(description)).toBeDefined()
+    })
+
+    test('should not render description when not provided', () => {
+        const { container } = render(<CustomHeader title={title} />)
+
+        const divElement = container.querySelector('.content-center')
+
+        const h1 = divElement?.querySelector('h1');
+        const p = divElement?.querySelector('p')
+
+        expect(h1?.innerHTML).toBe(title)
+        expect(p?.innerHTML).not.toBeDefined()
     })
 })
