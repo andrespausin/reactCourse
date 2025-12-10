@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
 
 import { Plus, Trash2, Check } from 'lucide-react';
 
@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getTasksInitialState, taskReducer } from './reducer/tasksReducer';
 
 interface Todo {
   id: number;
@@ -14,34 +15,43 @@ interface Todo {
 }
 
 export const TasksApp = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  // const [todos, setTodos] = useState<Todo[]>([]);
   const [inputValue, setInputValue] = useState('');
+  const [state, dispatch] = useReducer(taskReducer, getTasksInitialState())
 
   const addTodo = () => {
-    console.log('Agregar tarea', inputValue);
+    if (inputValue.length === 0) return;
+
+    dispatch({ type: 'ADD_TODO', payload: inputValue })
+
+    setInputValue('')
 
   };
 
   const toggleTodo = (id: number) => {
-    console.log('Cambiar de true a false', id);
+    dispatch({ type: 'TOGGLE_TODO', payload: id })
 
   };
 
   const deleteTodo = (id: number) => {
-    console.log('Eliminar tarea', id);
+    dispatch({ type: 'DELETE_TODO', payload: id })
 
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    console.log('Presiono enter');
+    if (e.key === "Enter") {
+      addTodo()
+    }
 
   };
 
-  const completedCount = todos.filter((todo) => todo.completed).length;
-  const totalCount = todos.length;
+  const { todos, completedNumber: completedCount, length: totalCount } = state;
+
+  // const completedCount = todos.filter((todo) => todo.completed).length;
+  // const totalCount = todos.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 p-4">
       <div className="mx-auto max-w-2xl">
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-slate-800 mb-2">
@@ -88,7 +98,7 @@ export const TasksApp = () => {
               </div>
               <div className="w-full bg-slate-200 rounded-full h-2">
                 <div
-                  className="bg-gradient-to-r from-green-400 to-green-500 h-2 rounded-full transition-all duration-300 ease-out"
+                  className="bg-linear-to-r from-green-400 to-green-500 h-2 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${(completedCount / totalCount) * 100}%` }}
                 />
               </div>
