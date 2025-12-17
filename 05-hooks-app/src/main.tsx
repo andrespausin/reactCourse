@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 // import { HooksApp } from './HooksApp'
@@ -9,7 +9,9 @@ import './index.css'
 // import { FocusScreen } from './05-useRef/FocusScreen'
 // import { TasksApp } from './06-useReducer/TaskApp'
 // import { ScrambleWords } from './06-useReducer/ScrambledWords'
-import { InstagramApp } from './07-useOptimistic/InstagramApp'
+// import { InstagramApp } from './07-useOptimistic/InstagramApp'
+import { ClientInformation } from './08-use-suspense/ClientInformation'
+import { getUserAction } from './08-use-suspense/actions/get-user.action'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -21,6 +23,9 @@ createRoot(document.getElementById('root')!).render(
     {/* <FocusScreen /> */}
     {/* <TasksApp /> */}
     {/* <ScrambleWords /> */}
-    <InstagramApp />
+    {/* <InstagramApp /> */}
+    <Suspense fallback={<h1 className='bg-gradient flex flex-col font-thin text-2xl'>Loading client information...</h1>}>
+      <ClientInformation getUser={getUserAction(1001)} />
+    </Suspense>
   </StrictMode>,
 )
